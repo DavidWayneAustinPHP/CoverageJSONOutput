@@ -7,7 +7,7 @@ More information can be found in the followng URL: https://covjson.org/.
 
 * To run this application have python version 3.11 installed on the PC
 And run the command in a terminal window {Powershell, CMD or Git Bash}
-python .\converter_csv_to_CoverageJSON.py
+python .\converter_csv_to_CoverageJSON.py.
 The python program will read in the example csv file and create the ConverageJSON file called: coverage.json
 
 * To test the ConverageJSON data, copy the JSON code from the file converage.json and place in the window of the URL: https://covjson.org/playground/
