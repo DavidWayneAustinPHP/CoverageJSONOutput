@@ -12,3 +12,5 @@ The python program will read in the example csv file and create the ConverageJSO
 
 To test the ConverageJSON data, copy the JSON code and place in the window of the URL: https://covjson.org/playground/
 This website will test the health of the JSON code and report any errors.
+
+A sucessful test of the application can be see in the file: "SuccessFullTest_JSONcode.png"
