@@ -52,7 +52,10 @@ def csv_to_coveragejson(csv_file_path):
                 },
                 "unit": {
                     "label": {"en": "Kelvin"},
-                    "symbol": {"value": "K"}
+                    "symbol": {
+                        "value": "K",
+                        "type": "http://www.opengis.net/def/uom/UCUM/"
+                    }
                 }
             }
         },

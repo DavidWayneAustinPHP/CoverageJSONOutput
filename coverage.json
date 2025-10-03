@@ -58,7 +58,8 @@
           "en": "Kelvin"
         },
         "symbol": {
-          "value": "K"
+          "value": "K",
+          "type": "http://www.opengis.net/def/uom/UCUM/"
         }
       }
     }
