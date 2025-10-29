@@ -69,7 +69,7 @@ Created a setup.py file for the installation of the application
 -- Add a check to ensure the file "input_csv_data.csv" exists and is readable
 -- Ensure the output path is writable where the output file "coverage.json" can be written
 
--- to run the package in "editabel" mode the following commands can be run
+-- to run the package in "editable" mode the following commands can be run
    -- cd /path/to/the/project
    -- pip install -e .
    -- coveragejson-convert
