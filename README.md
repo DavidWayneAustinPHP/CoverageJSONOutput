@@ -34,3 +34,7 @@ One of the following unit testing framewaorks needs to be installed when running
 -- pip install pytest
 -- pip install unitest
 , beforing running the unit test python script: UnitTest_CoverageJSONOutput.py
+
+To run the unit test code can use the following command
+-- pytest UnitTest_CoverageJSONOutput.py
+-- pyhon -m unittest UnitTest_CoverageJSONOutput.py
