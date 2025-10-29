@@ -1,82 +1,123 @@
 
-import csv  # Module for reading CSV files
-import json  # Module for working with JSON data
+import csv
+import json
 
-def csv_to_coveragejson(csv_file_path):
-    # Open the CSV file for reading
-    with open(csv_file_path, newline='') as csvfile:
-        reader = csv.DictReader(csvfile)  # Read rows into dictionaries using column headers
-        data = list(reader)  # Convert the reader object to a list of dictionaries
+class CSVReader:
+    def __init__(self, file_path):
+        self.file_path = file_path
 
-    # Extract individual columns from the CSV data
-    times = [row['time'] for row in data]  # List of time values
-    longitudes = [float(row['longitude']) for row in data]  # List of longitude values as floats
-    latitudes = [float(row['latitude']) for row in data]  # List of latitude values as floats
-    temperatures = [float(row['temperature']) for row in data]  # List of temperature values as floats
+    def read_data(self):
+        with open(self.file_path, newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            return list(reader)
 
-    # Assume all rows have the same lat/lon (i.e., point coverage)
-    lon = longitudes[0]  # Use the first longitude value
-    lat = latitudes[0]  # Use the first latitude value
 
-    # Construct the CoverageJSON structure
-    coveragejson = {
-        "type": "Coverage",
-        "domain": {
-            "type": "Domain",
-            "domainType": "PointSeries",  # Indicates data is a time series at a single point
-            "axes": {
-                "t": {"values": times},  # Time axis
-                "x": {"values": [lon]},  # Longitude axis
-                "y": {"values": [lat]}   # Latitude axis
+class CoverageDataExtractor:
+    def __init__(self, data):
+        self.data = data
+
+    def extract(self):
+        times = [row['time'] for row in self.data]
+        longitudes = [float(row['longitude']) for row in self.data]
+        latitudes = [float(row['latitude']) for row in self.data]
+        temperatures = [float(row['temperature']) for row in self.data]
+
+        return {
+            "times": times,
+            "longitude": longitudes[0],
+            "latitude": latitudes[0],
+            "temperatures": temperatures
+        }
+
+
+class CoverageJSONBuilder:
+    def __init__(self, extracted_data):
+        self.times = extracted_data["times"]
+        self.lon = extracted_data["longitude"]
+        self.lat = extracted_data["latitude"]
+        self.temperatures = extracted_data["temperatures"]
+
+    def build(self):
+        return {
+            "type": "Coverage",
+            "domain": {
+                "type": "Domain",
+                "domainType": "PointSeries",
+                "axes": {
+                    "t": {"values": self.times},
+                    "x": {"values": [self.lon]},
+                    "y": {"values": [self.lat]}
+                },
+                "referencing": [
+                    {
+                        "coordinates": ["x", "y"],
+                        "system": {
+                            "type": "GeographicCRS",
+                            "id": "http://www.opengis.net/def/crs/EPSG/0/4326"
+                        }
+                    },
+                    {
+                        "coordinates": ["t"],
+                        "system": {
+                            "type": "TemporalRS",
+                            "calendar": "Gregorian"
+                        }
+                    }
+                ]
             },
-            "referencing": [
-                {
-                    "coordinates": ["x", "y"],
-                    "system": {
-                        "type": "GeographicCRS",  # Coordinate Reference System for spatial data
-                        "id": "http://www.opengis.net/def/crs/EPSG/0/4326"  # WGS 84
-                    }
-                },
-                {
-                    "coordinates": ["t"],
-                    "system": {
-                        "type": "TemporalRS",  # Temporal Reference System
-                        "calendar": "Gregorian"  # Gregorian calendar
-                    }
-                }
-            ]
-        },
-        "parameters": {
-            "temperature": {
-                "type": "Parameter",
-                "observedProperty": {
-                    "label": {"en": "Air Temperature"},  # Human-readable label
-                    "id": "http://vocab.nerc.ac.uk/standard_name/air_temperature"  # Standardized identifier
-                },
-                "unit": {
-                    "label": {"en": "Kelvin"},  # Unit label
-                    "symbol": {
-                        "value": "K",  # Symbol for Kelvin
-                        "type": "http://www.opengis.net/def/uom/UCUM/"  # Unit type URI
+            "parameters": {
+                "temperature": {
+                    "type": "Parameter",
+                    "observedProperty": {
+                        "label": {"en": "Air Temperature"},
+                        "id": "http://vocab.nerc.ac.uk/standard_name/air_temperature"
+                    },
+                    "unit": {
+                        "label": {"en": "Kelvin"},
+                        "symbol": {
+                            "value": "K",
+                            "type": "http://www.opengis.net/def/uom/UCUM/"
+                        }
                     }
                 }
-            }
-        },
-        "ranges": {
-            "temperature": {
-                "type": "NdArray",  # Indicates data is a numerical array
-                "dataType": "float",  # Data type of the values
-                "axisNames": ["t"],  # Axis along which data is organized
-                "shape": [len(times)],  # Shape of the array (length of time series)
-                "values": temperatures  # Actual temperature values
+            },
+            "ranges": {
+                "temperature": {
+                    "type": "NdArray",
+                    "dataType": "float",
+                    "axisNames": ["t"],
+                    "shape": [len(self.times)],
+                    "values": self.temperatures
+                }
             }
         }
-    }
 
-    return coveragejson  # Return the constructed CoverageJSON object
+
+class CoverageJSONWriter:
+    def __init__(self, output_path):
+        self.output_path = output_path
+
+    def write(self, coveragejson):
+        with open(self.output_path, "w") as f:
+            json.dump(coveragejson, f, indent=2)
 
 
 # Example usage
-coverage = csv_to_coveragejson("input_csv_data.csv")  # Convert CSV to CoverageJSON
-with open("coverage.json", "w") as f:
-    json.dump(coverage, f, indent=2)  # Write the CoverageJSON to a file with indentation
+def main():
+    csv_path = "input_csv_data.csv"
+    output_path = "coverage.json"
+
+    reader = CSVReader(csv_path)
+    data = reader.read_data()
+
+    extractor = CoverageDataExtractor(data)
+    extracted_data = extractor.extract()
+
+    builder = CoverageJSONBuilder(extracted_data)
+    coveragejson = builder.build()
+
+    writer = CoverageJSONWriter(output_path)
+    writer.write(coveragejson)
+
+if __name__ == "__main__":
+    main()
