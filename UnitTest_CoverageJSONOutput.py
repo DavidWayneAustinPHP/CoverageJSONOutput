@@ -4,7 +4,7 @@ from unittest.mock import mock_open, patch
 import json
 
 # Import your classes here
-from your_module import (
+from converter_csv_to_CoverageJSON import (
     CSVReader,
     CoverageDataExtractor,
     CoverageJSONBuilder,
@@ -22,7 +22,7 @@ class TestCoverageJSONConversion(unittest.TestCase):
     def test_csv_reader(self):
         # Mock opening the file and reading CSV content
         with patch("builtins.open", mock_open(read_data=MOCK_CSV_CONTENT)):
-            reader = CSVReader("fake_path.csv")
+            reader = CSVReader("input_csv_data.csv")
             data = reader.read_data()
             self.assertEqual(len(data), 2)
             self.assertEqual(data[0]['time'], "2023-01-01T00:00:00Z")
@@ -62,4 +62,4 @@ class TestCoverageJSONConversion(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-``
+

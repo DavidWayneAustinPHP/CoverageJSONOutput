@@ -80,7 +80,7 @@ class CoverageJSONBuilder:
                         "id": "http://vocab.nerc.ac.uk/standard_name/air_temperature"
                     },
                     "unit": {
-                        "label": {"": "Kelvin"},
+                        "label": {"en": "Kelvin"},  # ✅ Fixed: key should be "en", not empty string
                         "symbol": {
                             "value": "K",
                             "type": "http://www.opengis.net/def/uom/UCUM/"
@@ -93,7 +93,8 @@ class CoverageJSONBuilder:
                     "type": "NdArray",
                     "dataType": "float",
                     "axisNames": ["t"],
-                    "shape": [len(self.timestemperatures
+                    "shape": [len(self.times)],  # ✅ Fixed: typo in variable name
+                    "values": self.temperatures
                 }
             }
         }
