@@ -31,10 +31,11 @@ Additional tuning of the application is needed
 Running Unit Testing of the code
 -----------------------------------------------
 One of the following unit testing framewaorks needs to be installed when running the Unit Testing python code
--- pip install pytest
+-- pip install pytest   {This is a more powerfull test running}
 -- pip install unitest
 , beforing running the unit test python script: UnitTest_CoverageJSONOutput.py
 
-To run the unit test code can use the following command
+To run the unit test code can use the following commands
 -- pytest UnitTest_CoverageJSONOutput.py
--- pyhon -m unittest UnitTest_CoverageJSONOutput.py
+-- python -m unittest UnitTest_CoverageJSONOutput.py
+-- python UnitTest_CoverageJSONOutput.py
