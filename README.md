@@ -15,8 +15,14 @@ This website will test the health of the JSON code and report any errors.
 
 A sucessful test of the application can be see in the file: "SuccessFullTest_JSONcode.png"
 
-Feedback from unsuccessful application, this was not asked in the specification but assumed to be added
--------------------------------------------------------------------------------------------------------
-‘Working python code. All code in one large python function, no use of classes. No unit tests. A reasonable readme, 
-and I like that he included a PNG of the successful test in covjson playground. 
-There is a git history, but most of the useful work is in the "initial commit". No validation. No setup.py or similar.’
+----------------------------------------------
+Additional tuning of the application is needed 
+----------------------------------------------
+-- Working python code. 
+-- All code in one large python function, no use of classes. 
+-- No unit tests. 
+-- Reasonable readme 
+-- Included a PNG of the successful test in covjson playground 
+-- Adding more git history
+-- Adding validation 
+-- Adding setup.py or similar.
