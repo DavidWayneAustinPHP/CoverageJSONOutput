@@ -58,5 +58,13 @@ Added required validation (Error Handling) to the python code to prevent a code 
 ---------------------------------------------------------------------------------------
 -- added validation code to python file converter_csv_to_CoverageJSON.py
 -- this includes ensuring the CSV contains the expected columns: 'time', 'longitude', 'latitude', 'temperature'. 
+
+---------------------------------------------------------------
+Created a setup.py file for the installation of the application
+----------------------------------------------------------------
+-- file created call setup.py and added to application
+-- the application can now be installed locally useing the following commands
+    -- pip install .
+    -- converagejson-convert
 -- Add a check to ensure the file "input_csv_data.csv" exists and is readable
 -- Ensure the output path is writable where the output file "coverage.json" can be written
