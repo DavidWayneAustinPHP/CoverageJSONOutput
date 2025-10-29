@@ -54,7 +54,7 @@ Ran 4 tests in 0.006s
 OK
 
 ---------------------------------------------------------------------------------------
-Added required validation to the python code to prevent a code fault in the application
+Added required validation (Error Handling) to the python code to prevent a code fault in the application
 ---------------------------------------------------------------------------------------
 -- added validation code to python file converter_csv_to_CoverageJSON.py
 -- this includes ensuring the CSV contains the expected columns: 'time', 'longitude', 'latitude', 'temperature'. 
