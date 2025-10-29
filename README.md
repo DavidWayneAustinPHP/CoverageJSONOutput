@@ -68,3 +68,12 @@ Created a setup.py file for the installation of the application
     -- converagejson-convert
 -- Add a check to ensure the file "input_csv_data.csv" exists and is readable
 -- Ensure the output path is writable where the output file "coverage.json" can be written
+
+-- to run the package in "editabel" mode the following commands can be run
+   -- cd /path/to/the/project
+   -- pip install -e .
+   -- coveragejson-convert
+
+-- to build and install a distributable package run the commands
+   -- python setup.py sdist bdist_wheel
+   -- pip install dist/converter_csv_to_CoverageJSON.tar.qz
