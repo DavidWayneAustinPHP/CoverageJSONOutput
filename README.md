@@ -39,3 +39,16 @@ To run the unit test code can use the following commands
 -- pytest UnitTest_CoverageJSONOutput.py
 -- python -m unittest UnitTest_CoverageJSONOutput.py
 -- python UnitTest_CoverageJSONOutput.py
+
+---------------------------------------------
+Results of running the Unit testing code
+---------------------------------------------
+Ran the unit test with the following command
+--  python UnitTest_CoverageJSONOutput.py
+
+, and the following output was produced:
+....
+-----------------------------------------------
+Ran 4 tests in 0.006s
+
+OK
