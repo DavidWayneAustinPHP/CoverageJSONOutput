@@ -2,26 +2,31 @@
 import csv
 import json
 
+# Class responsible for reading CSV data
 class CSVReader:
     def __init__(self, file_path):
         self.file_path = file_path
 
     def read_data(self):
+        # Reads CSV file and returns a list of dictionaries (rows)
         with open(self.file_path, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             return list(reader)
 
 
+# Class responsible for extracting relevant data from CSV rows
 class CoverageDataExtractor:
     def __init__(self, data):
         self.data = data
 
     def extract(self):
+        # Extracts time, longitude, latitude, and temperature values
         times = [row['time'] for row in self.data]
         longitudes = [float(row['longitude']) for row in self.data]
         latitudes = [float(row['latitude']) for row in self.data]
         temperatures = [float(row['temperature']) for row in self.data]
 
+        # Assumes all rows have the same lat/lon (point coverage)
         return {
             "times": times,
             "longitude": longitudes[0],
@@ -30,6 +35,7 @@ class CoverageDataExtractor:
         }
 
 
+# Class responsible for building the CoverageJSON structure
 class CoverageJSONBuilder:
     def __init__(self, extracted_data):
         self.times = extracted_data["times"]
@@ -38,6 +44,7 @@ class CoverageJSONBuilder:
         self.temperatures = extracted_data["temperatures"]
 
     def build(self):
+        # Constructs the CoverageJSON dictionary using extracted data
         return {
             "type": "Coverage",
             "domain": {
@@ -73,7 +80,7 @@ class CoverageJSONBuilder:
                         "id": "http://vocab.nerc.ac.uk/standard_name/air_temperature"
                     },
                     "unit": {
-                        "label": {"en": "Kelvin"},
+                        "label": {"": "Kelvin"},
                         "symbol": {
                             "value": "K",
                             "type": "http://www.opengis.net/def/uom/UCUM/"
@@ -86,38 +93,44 @@ class CoverageJSONBuilder:
                     "type": "NdArray",
                     "dataType": "float",
                     "axisNames": ["t"],
-                    "shape": [len(self.times)],
-                    "values": self.temperatures
+                    "shape": [len(self.timestemperatures
                 }
             }
         }
 
 
+# Class responsible for writing the CoverageJSON to a file
 class CoverageJSONWriter:
     def __init__(self, output_path):
         self.output_path = output_path
 
     def write(self, coveragejson):
+        # Writes the CoverageJSON dictionary to a JSON file with indentation
         with open(self.output_path, "w") as f:
             json.dump(coveragejson, f, indent=2)
 
 
-# Example usage
+# Main function to orchestrate the conversion process
 def main():
-    csv_path = "input_csv_data.csv"
-    output_path = "coverage.json"
+    csv_path = "input_csv_data.csv"       # Input CSV file path
+    output_path = "coverage.json"         # Output JSON file path
 
+    # Step 1: Read CSV data
     reader = CSVReader(csv_path)
     data = reader.read_data()
 
+    # Step 2: Extract relevant fields
     extractor = CoverageDataExtractor(data)
     extracted_data = extractor.extract()
 
+    # Step 3: Build CoverageJSON structure
     builder = CoverageJSONBuilder(extracted_data)
     coveragejson = builder.build()
 
+    # Step 4: Write CoverageJSON to file
     writer = CoverageJSONWriter(output_path)
     writer.write(coveragejson)
 
+# Entry point of the script
 if __name__ == "__main__":
     main()
