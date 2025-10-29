@@ -26,3 +26,11 @@ Additional tuning of the application is needed
 -- Adding more git history
 -- Adding validation 
 -- Adding setup.py or similar.
+
+-----------------------------------------------
+Running Unit Testing of the code
+-----------------------------------------------
+One of the following unit testing framewaorks needs to be installed when running the Unit Testing python code
+-- pip install pytest
+-- pip install unitest
+, beforing running the unit test python script: UnitTest_CoverageJSONOutput.py
